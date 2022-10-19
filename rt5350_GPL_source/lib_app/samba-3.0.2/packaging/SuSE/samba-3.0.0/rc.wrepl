@@ -1,0 +1,113 @@
+#! /bin/sh
+# Copyright (c) 2002 SuSE Linux AG, Germany. All rights reserved.
+#
+# Guenther Deschner <feedback@suse.de>
+#
+### BEGIN INIT INFO
+# Provides:       wrepl
+# Required-Start: $network $remote_fs syslog 
+# Required-Stop:
+# Default-Start:  3 5
+# Default-Stop:
+# Description:    initscript for the SAMBA Wins Replication services
+### END INIT INFO
+#
+# init.d/smb
+
+#. /etc/rc.config
+
+WREPL_BIN=/usr/sbin/wrepld
+SMB_CONF=/etc/samba/smb.conf
+WREPL_PID=/var/run/samba/wrepld.pid
+TDB_DIR=/var/lib/samba
+
+# Determine the base and follow a runlevel link name.
+#base=${0##*/}
+#link=${base#*[SK][0-9][0-9]}
+
+# Force execution if not called by a runlevel directory.
+#test $link = $base && START_SMB=yes
+#test "$START_SMB" = "yes" || exit 0
+
+# The echo return value for success (defined in /etc/rc.config).
+#return=$rc_done
+
+. /etc/rc.status
+rc_reset
+
+if [ ! -x $WREPL_BIN ] ; then
+	echo -n "WREPL daemon not installed ! "
+	rc_status -s
+	exit 5
+fi
+
+if [ ! -f ${SMB_CONF} ]; then
+        echo -n "Samba configuration file ${SMB_CONF} does not exist."
+        rc_status -s
+        exit 6
+fi
+
+grep '^[[:space:]]*wins partners' $SMB_CONF >/dev/null
+rc=$?
+if [ ${rc} -ne 0 ]; then
+        echo -n "Samba WREPL daemon not configured in $SMB_CONF."
+        rc_status -s
+        exit 6
+fi
+
+
+
+case "$1" in
+    start)
+
+	echo -n "Starting SAMBA wrepld :"
+	checkproc -p $WREPL_PID $WREPL_BIN
+	if [ $? -eq 0 ] ; then
+		echo -n "  Warning: wrepld already running ! "
+	else
+		[ -e $WREPL_PID ] && echo -n "  Warning: $WREPL_PID exists ! "
+	fi
+        startproc -p $WREPL_PID $WREPL_BIN -D
+	rc_status -v
+	;;
+
+    stop)
+	echo -n "Shutting down SAMBA wrepld :"
+	checkproc -p $WREPL_PID $WREPL_BIN || echo -n "  Warning: wrepld not running ! "
+	killproc -TERM -p $WREPL_PID $WREPL_BIN
+	rc_status -v
+	;;
+    try-restart)
+       $0 stop  &&  $0 start
+       rc_status
+       ;;
+    restart)
+       $0 stop
+       $0 start
+       rc_status
+       ;;
+    force-reload)
+       $0 reload
+       rc_status
+       ;;
+    reload)
+       echo -n "Reloading SAMBA wrepld :"
+       checkproc $WREPL_BIN || echo -n "  Warning: wrepld not running ! "
+       killproc -HUP $WREPL_BIN
+#      [ -e $NMB_PID ] && touch -c -m $NMB_PID
+       rc_status -v
+       ;;
+    status)
+       echo -n "Checking for SAMBA wrepld :"
+       checkproc $WREPL_BIN
+       rc_status -v
+       ;;
+    probe)
+       test $SMB_CONF -nt $WREPL_PID && echo reload
+       ;;
+    *)
+       echo "Usage: $0 {start|stop|status|try-restart|restart|force-reload|reload|probe}"
+       exit 1
+       ;;
+esac
+rc_exit

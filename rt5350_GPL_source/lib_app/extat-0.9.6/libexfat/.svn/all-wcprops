@@ -1,0 +1,83 @@
+K 25
+svn:wc:ra_dav:version-url
+V 32
+/svn/!svn/ver/273/trunk/libexfat
+END
+time.c
+K 25
+svn:wc:ra_dav:version-url
+V 39
+/svn/!svn/ver/273/trunk/libexfat/time.c
+END
+utf.c
+K 25
+svn:wc:ra_dav:version-url
+V 38
+/svn/!svn/ver/190/trunk/libexfat/utf.c
+END
+utils.c
+K 25
+svn:wc:ra_dav:version-url
+V 40
+/svn/!svn/ver/253/trunk/libexfat/utils.c
+END
+cluster.c
+K 25
+svn:wc:ra_dav:version-url
+V 42
+/svn/!svn/ver/269/trunk/libexfat/cluster.c
+END
+log.c
+K 25
+svn:wc:ra_dav:version-url
+V 38
+/svn/!svn/ver/185/trunk/libexfat/log.c
+END
+mount.c
+K 25
+svn:wc:ra_dav:version-url
+V 40
+/svn/!svn/ver/269/trunk/libexfat/mount.c
+END
+byteorder.h
+K 25
+svn:wc:ra_dav:version-url
+V 44
+/svn/!svn/ver/146/trunk/libexfat/byteorder.h
+END
+node.c
+K 25
+svn:wc:ra_dav:version-url
+V 39
+/svn/!svn/ver/269/trunk/libexfat/node.c
+END
+exfatfs.h
+K 25
+svn:wc:ra_dav:version-url
+V 42
+/svn/!svn/ver/244/trunk/libexfat/exfatfs.h
+END
+io.c
+K 25
+svn:wc:ra_dav:version-url
+V 37
+/svn/!svn/ver/272/trunk/libexfat/io.c
+END
+lookup.c
+K 25
+svn:wc:ra_dav:version-url
+V 41
+/svn/!svn/ver/153/trunk/libexfat/lookup.c
+END
+version.h
+K 25
+svn:wc:ra_dav:version-url
+V 42
+/svn/!svn/ver/243/trunk/libexfat/version.h
+END
+exfat.h
+K 25
+svn:wc:ra_dav:version-url
+V 40
+/svn/!svn/ver/269/trunk/libexfat/exfat.h
+END

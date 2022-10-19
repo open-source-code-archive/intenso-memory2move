@@ -1,0 +1,5 @@
+#
+# start samba? ("yes" or "no")
+# Windows 95 / NT  -  File- and Printservices
+#
+START_SMB="no"

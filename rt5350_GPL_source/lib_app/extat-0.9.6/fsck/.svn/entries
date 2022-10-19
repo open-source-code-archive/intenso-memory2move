@@ -1,0 +1,52 @@
+8
+
+dir
+273
+http://exfat.googlecode.com/svn/trunk/fsck
+http://exfat.googlecode.com/svn
+
+
+
+2011-05-04T20:52:07.408422Z
+224
+resver
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+60bc1c72-a15a-11de-b98f-4500b42dc123
+
+exfatfsck.8
+file
+
+
+
+
+2012-03-07T06:15:39.000000Z
+b6b264e388fb0b051e86d7817ed8fc3c
+2011-03-01T05:41:43.144706Z
+214
+resver
+
+main.c
+file
+
+
+
+
+2012-03-07T06:15:39.000000Z
+0652b557c08a94f9a05c531545262c2f
+2011-05-04T20:52:07.408422Z
+224
+resver
+

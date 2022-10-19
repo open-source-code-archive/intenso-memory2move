@@ -1,0 +1,52 @@
+8
+
+dir
+273
+http://exfat.googlecode.com/svn/trunk/dump
+http://exfat.googlecode.com/svn
+
+
+
+2012-03-03T07:39:07.692955Z
+269
+resver
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+60bc1c72-a15a-11de-b98f-4500b42dc123
+
+dumpexfat.8
+file
+
+
+
+
+2012-03-07T06:15:39.000000Z
+dda19c1d32226e71fd20b7d879eba339
+2011-03-01T05:41:43.144706Z
+214
+resver
+
+main.c
+file
+
+
+
+
+2012-03-07T06:15:39.000000Z
+dd1492035d68a277d71721214a3fcfef
+2012-03-03T07:39:07.692955Z
+269
+resver
+

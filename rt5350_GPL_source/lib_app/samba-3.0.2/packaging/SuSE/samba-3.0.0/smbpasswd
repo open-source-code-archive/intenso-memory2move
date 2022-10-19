@@ -1,0 +1,3 @@
+# Sample smbpasswd file.
+# To use this, set 'encrypt passwords = yes' in the [global]-section
+# of /etc/smb.conf

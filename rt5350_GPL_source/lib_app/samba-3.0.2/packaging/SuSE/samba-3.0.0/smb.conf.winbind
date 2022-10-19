@@ -1,0 +1,32 @@
+#
+# /etc/samba/smb.conf.winbind
+#
+# Copyright (c) 2002 SuSE Linux AG, GS Berlin, Germany.
+#
+# comments to gd@suse.de
+#
+[global]
+#  log level = 3
+   netbios name = mthelena
+   workgroup = SMB-BERLIN
+   guest account = nobody
+   keep alive = 30
+   os level = 65
+
+   security = domain
+   password server = *
+   interfaces = 127.0.0.1 eth0
+   bind interfaces only = true
+
+   encrypt passwords = yes
+
+   winbind separator = +
+   winbind cache time = 10
+   winbind uid = 10000-20000
+   winbind gid = 10000-20000
+   winbind enum users = Yes
+   winbind enum groups = Yes
+   winbind use default domain = No
+
+   template shell = /bin/bash
+   template homedir = /home/%D/%U

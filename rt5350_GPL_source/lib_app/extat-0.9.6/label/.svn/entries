@@ -1,0 +1,52 @@
+8
+
+dir
+273
+http://exfat.googlecode.com/svn/trunk/label
+http://exfat.googlecode.com/svn
+
+
+
+2011-03-01T05:41:43.144706Z
+214
+resver
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+60bc1c72-a15a-11de-b98f-4500b42dc123
+
+main.c
+file
+
+
+
+
+2012-03-07T06:15:39.000000Z
+b8d60549c81a88a7a79fe1822730e793
+2011-03-01T05:35:14.142967Z
+213
+resver
+
+exfatlabel.8
+file
+
+
+
+
+2012-03-07T06:15:39.000000Z
+83cd245a04fecdbb8a6b759141a53b7f
+2011-03-01T05:41:43.144706Z
+214
+resver
+

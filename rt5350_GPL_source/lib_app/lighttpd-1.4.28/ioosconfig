@@ -1,0 +1,1 @@
+./configure --host=arm-linux --prefix=/home/wangsn/123 --enable-static  --with-ldap --disable-ipv6

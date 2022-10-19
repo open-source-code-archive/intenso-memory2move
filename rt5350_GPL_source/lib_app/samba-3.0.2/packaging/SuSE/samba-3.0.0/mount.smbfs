@@ -1,0 +1,14 @@
+#!/bin/sh
+#
+# Copyright (c) 1999 SuSE GmbH Nuernberg, Germany.  All rights reserved.
+#
+# Author: Carsten Hoeger <feedback@suse.de>
+#
+# /sbin/mount.smbfs
+#
+# I'm called by the mount-command and smbmount want's to get
+# called by me, so lets do it.
+#
+# P.S.: This is a very very raw solution and I don't know, if this
+# is intentionally.
+smbmount "$@"

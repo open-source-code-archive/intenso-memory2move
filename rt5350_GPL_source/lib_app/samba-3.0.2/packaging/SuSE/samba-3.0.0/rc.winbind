@@ -1,0 +1,103 @@
+#! /bin/sh
+# Copyright (c) 2002 SuSE Linux AG Nuernberg, All rights reserved.
+#
+# Guenther Deschner <feedback@suse.de>
+#
+### BEGIN INIT INFO
+# Provides:       winbind
+# Required-Start: $network $remote_fs syslog 
+# Required-Stop:
+# Default-Start:  3 5
+# Default-Stop:
+# Description:    initscript for the SAMBA winbind services
+### END INIT INFO
+#
+# init.d/winbind
+
+#. /etc/rc.config
+
+WINBIND_BIN=/usr/sbin/winbindd
+#SMB_CONF=/etc/samba/smb.conf.winbind
+SMB_CONF=/etc/samba/smb.conf
+WINBIND_PID=/var/run/samba/winbindd.pid
+
+
+# Determine the base and follow a runlevel link name.
+#base=${0##*/}
+#link=${base#*[SK][0-9][0-9]}
+
+# Force execution if not called by a runlevel directory.
+#test $link = $base && START_WINBIND=yes
+#test "$START_WINBIND" = "yes" || exit 0
+
+. /etc/rc.status
+rc_reset
+
+if [ ! -x $WINBIND_BIN ] ; then
+	echo -n "WINBIND daemon not installed ! "
+	rc_status -s
+	exit 5
+fi
+
+if [ ! -f $SMB_CONF ]; then
+	echo -n "Samba configuration file $SMB_CONF does not exist."
+	rc_status -s
+	exit 6
+fi
+
+
+# The echo return value for success (defined in /etc/rc.config).
+#return=$rc_done
+
+case "$1" in
+    start)
+	echo -n "Starting SAMBA winbind :"
+	checkproc -p $WINBIND_PID $WINBIND_BIN
+	if [ $? -eq 0 ] ; then
+		echo -n "  Warning: winbind already running ! "
+	else
+		[ -e $WINBIND_PID ] && echo -n "  Warning: $WINBIND_PID exists ! "
+	fi
+	startproc -p $WINBIND_PID $WINBIND_BIN -B
+	rc_status -v
+	;;
+    stop)
+        echo -n "Shutting down SAMBA winbind :"
+	     checkproc -p $WINBIND_PID $WINBIND_BIN || echo -n "  Warning: winbind not running ! "
+	     killproc -TERM -p $WINBIND_PID $WINBIND_BIN
+	     rc_status -v
+	;;
+    try-restart)
+       $0 stop  &&  $0 start
+       rc_status
+       ;;
+    restart)
+       $0 stop
+       $0 start
+       rc_status
+       ;;
+    force-reload)
+       $0 reload
+       rc_status
+       ;;
+    reload)
+       echo -n "Reloading SAMBA winbind :"
+       checkproc -p $WINBIND_PID $WINBIND_BIN || echo -n "  Warning: winbind not running ! "
+       killproc -HUP -p $WINBIND_PID $WINBIND_BIN
+#      [ -e $WINBIND_PID ] && touch -c -m $WINBIND_PID
+       rc_status -v
+       ;;
+    status)
+       echo -n "Checking for SAMBA winbind :"
+       checkproc $WINBIND_BIN
+       rc_status -v
+       ;;
+    probe)
+       test $SMB_CONF -nt $WINBIND_PID && echo reload
+       ;;
+    *)
+       echo "Usage: $0 {start|stop|status|try-restart|restart|force-reload|reload|probe}"
+       exit 1
+       ;;
+esac
+rc_exit

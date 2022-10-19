@@ -1,0 +1,52 @@
+8
+
+dir
+273
+http://exfat.googlecode.com/svn/trunk/fuse
+http://exfat.googlecode.com/svn
+
+
+
+2012-02-12T07:49:26.353163Z
+257
+resver
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+60bc1c72-a15a-11de-b98f-4500b42dc123
+
+main.c
+file
+
+
+
+
+2012-03-07T06:15:39.000000Z
+9051529b08f86837b903fe28378d2db0
+2012-02-12T07:49:26.353163Z
+257
+resver
+
+mount.exfat-fuse.8
+file
+
+
+
+
+2012-03-07T06:15:39.000000Z
+a954ae5168f47e63b13bdec5b6740b68
+2011-03-01T05:41:43.144706Z
+214
+resver
+

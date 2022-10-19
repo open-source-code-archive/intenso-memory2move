@@ -1,0 +1,3 @@
+file /home/wangsn/root/exfat/exfat-read-only/SConstruct,line 26:
+	Configure(confdir = .sconf_temp)
+

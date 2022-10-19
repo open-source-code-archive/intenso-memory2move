@@ -1,0 +1,38 @@
+all:
+	mipsel-linux-gcc -o libexfat/cluster.o -c -Wall -O2 -ggdb -DFUSE_USE_VERSION=26 -D_FILE_OFFSET_BITS=64 -Ilibexfat libexfat/cluster.c
+	mipsel-linux-gcc -o libexfat/io.o -c -Wall -O2 -ggdb -DFUSE_USE_VERSION=26 -D_FILE_OFFSET_BITS=64 -Ilibexfat libexfat/io.c
+	mipsel-linux-gcc -o libexfat/log.o -c -Wall -O2 -ggdb -DFUSE_USE_VERSION=26 -D_FILE_OFFSET_BITS=64 -Ilibexfat libexfat/log.c
+	mipsel-linux-gcc -o libexfat/lookup.o -c -Wall -O2 -ggdb -DFUSE_USE_VERSION=26 -D_FILE_OFFSET_BITS=64 -Ilibexfat libexfat/lookup.c
+	mipsel-linux-gcc -o libexfat/mount.o -c -Wall -O2 -ggdb -DFUSE_USE_VERSION=26 -D_FILE_OFFSET_BITS=64 -Ilibexfat libexfat/mount.c
+	mipsel-linux-gcc -o libexfat/node.o -c -Wall -O2 -ggdb -DFUSE_USE_VERSION=26 -D_FILE_OFFSET_BITS=64 -Ilibexfat libexfat/node.c
+	mipsel-linux-gcc -o libexfat/time.o -c -Wall -O2 -ggdb -DFUSE_USE_VERSION=26 -D_FILE_OFFSET_BITS=64 -Ilibexfat libexfat/time.c
+	mipsel-linux-gcc -o libexfat/utf.o -c -Wall -O2 -ggdb -DFUSE_USE_VERSION=26 -D_FILE_OFFSET_BITS=64 -Ilibexfat libexfat/utf.c
+	mipsel-linux-gcc -o libexfat/utils.o -c -Wall -O2 -ggdb -DFUSE_USE_VERSION=26 -D_FILE_OFFSET_BITS=64 -Ilibexfat libexfat/utils.c
+	
+	mipsel-linux-gcc -o fuse/main.o -c -Wall -O2 -ggdb -DFUSE_USE_VERSION=26 -D_FILE_OFFSET_BITS=64 -Ilibexfat fuse/main.c
+	mipsel-linux-gcc -o fuse/mount.exfat-fuse fuse/main.o -lpthread -lexfat -lfuse
+	mipsel-linux-strip fuse/mount.exfat-fuse
+		
+	mipsel-linux-gcc -o dump/main.o -c -Wall -O2 -ggdb -DFUSE_USE_VERSION=26 -D_FILE_OFFSET_BITS=64 -Ilibexfat dump/main.c
+	mipsel-linux-gcc -o dump/dumpexfat dump/main.o -lexfat
+	mipsel-linux-strip dump/dumpexfat
+		
+	mipsel-linux-gcc -o fsck/main.o -c -Wall -O2 -ggdb -DFUSE_USE_VERSION=26 -D_FILE_OFFSET_BITS=64 -Ilibexfat fsck/main.c
+	mipsel-linux-gcc -o fsck/exfatfsck fsck/main.o -lexfat
+	mipsel-linux-strip fsck/exfatfsck
+		
+	mipsel-linux-gcc -o mkfs/cbm.o -c -Wall -O2 -ggdb -DFUSE_USE_VERSION=26 -D_FILE_OFFSET_BITS=64 -Ilibexfat mkfs/cbm.c
+	mipsel-linux-gcc -o mkfs/fat.o -c -Wall -O2 -ggdb -DFUSE_USE_VERSION=26 -D_FILE_OFFSET_BITS=64 -Ilibexfat mkfs/fat.c
+	mipsel-linux-gcc -o mkfs/main.o -c -Wall -O2 -ggdb -DFUSE_USE_VERSION=26 -D_FILE_OFFSET_BITS=64 -Ilibexfat mkfs/main.c
+	mipsel-linux-gcc -o mkfs/rootdir.o -c -Wall -O2 -ggdb -DFUSE_USE_VERSION=26 -D_FILE_OFFSET_BITS=64 -Ilibexfat mkfs/rootdir.c
+	mipsel-linux-gcc -o mkfs/uct.o -c -Wall -O2 -ggdb -DFUSE_USE_VERSION=26 -D_FILE_OFFSET_BITS=64 -Ilibexfat mkfs/uct.c
+	mipsel-linux-gcc -o mkfs/vbr.o -c -Wall -O2 -ggdb -DFUSE_USE_VERSION=26 -D_FILE_OFFSET_BITS=64 -Ilibexfat mkfs/vbr.c
+	mipsel-linux-gcc -o mkfs/mkexfatfs mkfs/cbm.o mkfs/fat.o mkfs/main.o mkfs/rootdir.o mkfs/uct.o mkfs/vbr.o -lexfat
+	mipsel-linux-strip mkfs/mkexfatfs
+		
+	mipsel-linux-gcc -o label/main.o -c -Wall -O2 -ggdb -DFUSE_USE_VERSION=26 -D_FILE_OFFSET_BITS=64 -Ilibexfat label/main.c
+	mipsel-linux-gcc -o label/exfatlabel label/main.o -Llibexfat -lexfat
+	mipsel-linux-strip label/exfatlabel
+
+install:all
+	cp fuse/mount.exfat-fuse dump/dumpexfat fsck/exfatfsck mkfs/mkexfatfs label/exfatlabel /opt/buildroot-gcc342/bin/ -arf

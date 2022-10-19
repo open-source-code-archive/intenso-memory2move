@@ -1,0 +1,52 @@
+#! /bin/bash
+# Copyright (c) 1996-2002 SuSE Linux AG Nuernberg, Germany.  
+# All rights reserved.
+#
+# Author: Thomas Fehr <feedback@suse.de>, 1999
+#
+# /sbin/init.d/smbfs
+#
+### BEGIN INIT INFO
+# Provides:       smbfs
+# Required-Start: $network $remote_fs syslog 
+# Required-Stop:
+# Default-Start:  3 5
+# Default-Stop:
+# Description:    Import CIFS file system
+### END INIT INFO
+
+smbfs=no
+if [ `cat /proc/mounts | grep " smbfs " | wc -l` -gt 0 ]
+then
+    smbfs=yes
+fi
+
+. /etc/rc.status
+rc_reset
+
+return=$rc_done
+case "$1" in
+    start|reload)
+	;;
+    stop)
+	if [ "$smbfs" = "yes" ]
+	then
+	    echo -n "Remove SMB File System"
+	    #
+	    # Unmount in background because during long timeouts
+	    #
+	    umount -at smbfs &
+	    sleep 2
+	    echo -e "$return"
+	fi
+	;;
+    restart)
+	$0 stop && $0 start || return=$rc_failed
+	;;
+    status)
+	;;
+    *)
+	echo "Usage: $0 {start|stop|status|reload|restart}"
+	exit 1
+esac
+exit 0

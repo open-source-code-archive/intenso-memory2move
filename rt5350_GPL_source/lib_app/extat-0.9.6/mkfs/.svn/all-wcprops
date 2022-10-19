@@ -1,0 +1,89 @@
+K 25
+svn:wc:ra_dav:version-url
+V 28
+/svn/!svn/ver/269/trunk/mkfs
+END
+vbr.h
+K 25
+svn:wc:ra_dav:version-url
+V 34
+/svn/!svn/ver/269/trunk/mkfs/vbr.h
+END
+fat.h
+K 25
+svn:wc:ra_dav:version-url
+V 34
+/svn/!svn/ver/269/trunk/mkfs/fat.h
+END
+uct.h
+K 25
+svn:wc:ra_dav:version-url
+V 34
+/svn/!svn/ver/269/trunk/mkfs/uct.h
+END
+cbm.c
+K 25
+svn:wc:ra_dav:version-url
+V 34
+/svn/!svn/ver/269/trunk/mkfs/cbm.c
+END
+rootdir.c
+K 25
+svn:wc:ra_dav:version-url
+V 38
+/svn/!svn/ver/269/trunk/mkfs/rootdir.c
+END
+uctc.h
+K 25
+svn:wc:ra_dav:version-url
+V 35
+/svn/!svn/ver/181/trunk/mkfs/uctc.h
+END
+main.c
+K 25
+svn:wc:ra_dav:version-url
+V 35
+/svn/!svn/ver/269/trunk/mkfs/main.c
+END
+mkexfat.h
+K 25
+svn:wc:ra_dav:version-url
+V 38
+/svn/!svn/ver/210/trunk/mkfs/mkexfat.h
+END
+cbm.h
+K 25
+svn:wc:ra_dav:version-url
+V 34
+/svn/!svn/ver/269/trunk/mkfs/cbm.h
+END
+rootdir.h
+K 25
+svn:wc:ra_dav:version-url
+V 38
+/svn/!svn/ver/269/trunk/mkfs/rootdir.h
+END
+vbr.c
+K 25
+svn:wc:ra_dav:version-url
+V 34
+/svn/!svn/ver/269/trunk/mkfs/vbr.c
+END
+fat.c
+K 25
+svn:wc:ra_dav:version-url
+V 34
+/svn/!svn/ver/269/trunk/mkfs/fat.c
+END
+uct.c
+K 25
+svn:wc:ra_dav:version-url
+V 34
+/svn/!svn/ver/269/trunk/mkfs/uct.c
+END
+mkexfatfs.8
+K 25
+svn:wc:ra_dav:version-url
+V 40
+/svn/!svn/ver/214/trunk/mkfs/mkexfatfs.8
+END

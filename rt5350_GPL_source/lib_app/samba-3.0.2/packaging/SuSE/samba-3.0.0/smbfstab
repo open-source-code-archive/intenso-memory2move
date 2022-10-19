@@ -1,0 +1,9 @@
+# This file allows you to mount smbfs shares during system boot while hiding
+# passwords to other people than root. Use /etc/fstab for public available
+# services. You have to specify at least a service name and a mount point.
+#
+# The options are explained in the manual page of smbmount.
+#
+# service       moint-point     options
+
+;//fjall/test   /data/test      username=tridge,password=foobar

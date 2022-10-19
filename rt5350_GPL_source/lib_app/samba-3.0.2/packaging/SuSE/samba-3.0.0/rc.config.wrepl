@@ -1,0 +1,6 @@
+#
+# start wrepl? ("yes" or "no")
+# Windows 95 / NT  -  Wins Replication Server
+#
+START_WREPL="no"
+

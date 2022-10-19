@@ -1,0 +1,173 @@
+#! /bin/sh
+# Copyright (c) 2002 SuSE Linux AG, Germany. All rights reserved.
+#
+# Guenther Deschner <feedback@suse.de>
+#
+### BEGIN INIT INFO
+# Provides:       smb
+# Required-Start: $network $remote_fs syslog 
+# X-UnitedLinux-Should-Start: cupsd winbind
+# Required-Stop:
+# Default-Start:  3 5
+# Default-Stop:
+# Description:    initscript for the SAMBA services
+### END INIT INFO
+#
+# init.d/smb
+
+#. /etc/rc.config
+
+SMB_BIN=/usr/sbin/smbd
+NMB_BIN=/usr/sbin/nmbd
+SMB_CONF=/etc/samba/smb.conf
+SMB_PID=/var/run/samba/smbd.pid
+NMB_PID=/var/run/samba/nmbd.pid
+TDB_DIR=/var/lib/samba
+
+# The  maximum number of open file descriptors
+ulimit -n 2048
+
+# The maximum number of processes available to a single user
+ulimit -u 2048
+
+# Determine the base and follow a runlevel link name.
+#base=${0##*/}
+#link=${base#*[SK][0-9][0-9]}
+
+# Force execution if not called by a runlevel directory.
+#test $link = $base && START_SMB=yes
+#test "$START_SMB" = "yes" || exit 0
+
+# The echo return value for success (defined in /etc/rc.config).
+#return=$rc_done
+
+. /etc/rc.status
+rc_reset
+
+if [ ! -x $SMB_BIN ] ; then
+	echo -n "SMB daemon not installed ! "
+	rc_status -s
+	exit 5
+fi
+
+if [ ! -x $NMB_BIN ] ; then
+	echo -n "NMB daemon not installed ! "
+	rc_status -s
+	exit 5
+fi
+
+if [ ! -f ${SMB_CONF} ]; then
+        echo -n "Samba configuration file ${SMB_CONF} does not exist."
+        rc_status -s
+        exit 6
+fi
+
+
+# wait for cupsd to be ready
+function wait_for_cupsd
+{
+	echo -n "Waiting for cupsd to get ready "
+	for ((i=0; i<30; i++)); do
+		if lpstat -r &>/dev/null; then continue
+		else echo -n . ; sleep 1
+		fi
+	done
+
+	lpstat -r &>/dev/null && rc_status -v || rc_status -s
+	rc_reset
+}
+
+
+case "$1" in
+    start)
+#        echo -n "Starting SAMBA: removing stale tdbs :"
+#        rm -vf \
+#        $TDB_DIR/brlock.tdb \
+#        $TDB_DIR/connections.tdb \
+#        $TDB_DIR/locking.tdb \
+#        $TDB_DIR/messages.tdb \
+#        $TDB_DIR/namelist.debug \
+#        $TDB_DIR/sessionid.tdb \
+#        $TDB_DIR/unexpected.tdb 
+#        rc_status -v
+
+#	if grep -qi '^[[:space:]]*printing[[:space:]]*=[[:space:]]*cups' $SMB_CONF && chkconfig --check cups; then
+	if grep -qi '^[[:space:]]*printing[[:space:]]*=[[:space:]]*cups' $SMB_CONF && chkconfig cups; then
+		wait_for_cupsd
+	fi
+
+	echo -n "Starting SAMBA nmbd :"
+	checkproc -p $NMB_PID $NMB_BIN
+	if [ $? -eq 0 ] ; then
+		echo -n "  Warning: nmbd already running ! "
+	else
+		[ -e $NMB_PID ] && echo -n "  Warning: $NMB_PID exists ! "
+	fi
+        startproc -p $NMB_PID $NMB_BIN -D
+	rc_status -v
+
+	echo -n "Starting SAMBA smbd :"
+	checkproc -p $SMB_PID $SMB_BIN
+	if [ $? -eq 0 ] ; then
+		echo -n "  Warning: smbd already running ! "
+	else
+		[ -e $SMB_PID ] && echo -n "  Warning: $SMB_PID exists ! "
+	fi
+	startproc -p $SMB_PID $SMB_BIN -D
+	rc_status -v
+	;;
+
+    stop)
+	echo -n "Shutting down SAMBA nmbd :"
+	checkproc -p $NMB_PID $NMB_BIN || echo -n "  Warning: nmbd not running ! "
+	killproc -TERM -p $NMB_PID $NMB_BIN
+	rc_status -v
+
+	echo -n "Shutting down SAMBA smbd :"
+	checkproc $SMB_BIN || echo -n "  Warning: smbd not running ! "
+	killproc -TERM -p $SMB_PID $SMB_BIN
+	rc_status -v
+	;;
+    try-restart)
+       $0 stop  &&  $0 start
+       rc_status
+       ;;
+    restart)
+       $0 stop
+       $0 start
+       rc_status
+       ;;
+    force-reload)
+       $0 reload
+       rc_status
+       ;;
+    reload)
+       echo -n "Reloading SAMBA nmbd :"
+       checkproc $NMB_BIN || echo -n "  Warning: nmbd not running ! "
+       killproc -HUP $NMB_BIN
+#      [ -e $NMB_PID ] && touch -c -m $NMB_PID
+       rc_status -v
+       echo -n "Reloading SAMBA smbd :"
+       checkproc $SMB_BIN || echo -n "  Warning: smbd not running ! "
+       killproc -HUP $SMB_BIN
+#      [ -e $SMB_PID ] && touch -c -m $SMB_PID
+       rc_status -v
+       ;;
+    status)
+       echo -n "Checking for SAMBA nmbd :"
+       checkproc $NMB_BIN
+       rc_status -v
+       echo -n "Checking for SAMBA smbd :"
+       checkproc $SMB_BIN
+       rc_status -v
+       ;;
+    probe)
+       test $SMB_CONF -nt $SMB_PID && echo reload
+       test $SMB_CONF -nt $NMB_PID && echo reload
+       ;;
+    *)
+       echo "Usage: $0 {start|stop|status|try-restart|restart|force-reload|reload|probe}"
+       exit 1
+       ;;
+esac
+rc_exit
